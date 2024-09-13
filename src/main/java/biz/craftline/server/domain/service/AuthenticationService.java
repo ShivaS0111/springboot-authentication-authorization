@@ -13,48 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class AuthenticationService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+public interface AuthenticationService {
 
 
-    public AuthenticationService(
-        UserRepository userRepository,
-        AuthenticationManager authenticationManager,
-        PasswordEncoder passwordEncoder
-    ) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    public User register(RegisterDTO input) ;
 
-    public User register(RegisterDTO input) {
-        User user;
-        try {
-            user = new User()
-                    .setFullName(input.getFullName())
-                    .setEmail(input.getEmail())
-                    .setPassword(passwordEncoder.encode(input.getPassword()));
-        } catch (Exception e) {
-            throw new AuthenticationServiceException(e.getMessage());
-        }
-        return userRepository.save(user);
-    }
+    public User authenticate(LoginUserDTO input);
 
-    public User authenticate(LoginUserDTO input) {
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                input.getEmail(),
-                input.getPassword()
-            )
-        );
-
-        return userRepository.findByEmail(input.getEmail()).orElseThrow();
-    }
-
-    public List<User> allUsers() {
-        return new ArrayList<>(userRepository.findAll());
-    }
+    public List<User> allUsers() ;
 }

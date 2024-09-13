@@ -12,8 +12,9 @@ import java.util.Optional;
 @Repository
 public interface RoleJpaRepository extends JpaRepository<Role, Long>, RoleRepository {
 
-
     @NotNull List<Role> findAll();
 
     void deleteRoleById(Long id);
+
+    @NotNull Optional<Role> findById(@NotNull Long roleId);
 }

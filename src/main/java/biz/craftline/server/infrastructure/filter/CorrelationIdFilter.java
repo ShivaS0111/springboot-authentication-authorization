@@ -1,7 +1,8 @@
-package biz.craftline.server.filter;
+package biz.craftline.server.infrastructure.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ public class CorrelationIdFilter implements Filter {
             correlationId = UUID.randomUUID().toString();  // Generate a new correlation ID if none provided
         }
 
+        System.out.println("correlationId: "+correlationId);
         MDC.put("correlationId", correlationId);
 
         try {

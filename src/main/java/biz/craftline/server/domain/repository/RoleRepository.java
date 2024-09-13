@@ -11,10 +11,13 @@ import java.util.Optional;
 import java.util.Set;
 
 
-@Repository
-public interface RoleRepository extends CrudRepository<Role, Long> {
+public interface RoleRepository {
 
     @NotNull List<Role> findAll();
 
     void deleteRoleById(Long id);
+
+    Optional<Role> findById(Long roleId);
+
+    Role save(Role roleEntity);
 }

@@ -1,6 +1,5 @@
 package biz.craftline.server.infrastructure.security;
 
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -60,7 +59,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             }
             //logger.info("===>doFilterInternal: last   isAuthenticated:  " + (authentication != null && authentication.isAuthenticated()));
             filterChain.doFilter(request, response);
-        } catch (Exception exception) {
+        }catch (Exception exception) {
             //throw new ServletException(exception);
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }

@@ -1,9 +1,9 @@
 <configuration>
 
     <!-- Define the log file path -->
-    <property name="LOG_PATH" value="/Users/shiva.dharmoj/Desktop/projects/SpringProjects/logs/cl" />
+    <property name="LOG_PATH" value="logs" />
     <!-- Define log file name -->
-    <property name="LOG_FILE" value="application.log" />
+    <property name="LOG_FILE" value="application-%d{yyyy-MM-dd}.log.gz" />
 
     <!-- Define an asynchronous appender -->
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
@@ -14,15 +14,16 @@
 
     <!-- Rolling file appender to rotate logs -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/application.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- Rotate log files daily, and keep logs for 30 days -->
-            <fileNamePattern>logs/application.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}}</fileNamePattern>
+            <maxHistory>30</maxHistory> <!-- Keep 30 days of logs -->
+            <totalSizeCap>3GB</totalSizeCap> <!-- Maximum total size of all archived logs -->
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg [correlationId:%X{correlationId}]%n</pattern>
         </encoder>
+        <filter class="biz.craftline.server.infrastructure.filter.NoStackTraceFilter" />
     </appender>
 
     <!-- Root logger setup with async appender -->

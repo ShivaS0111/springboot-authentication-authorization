@@ -12,27 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class RoleService {
-    private final RoleRepository repository;
+public interface RoleService {
+    public List<Role> findAll() ;
 
-    public RoleService(RoleRepository roleRepository) {
-        this.repository = roleRepository;
-    }
+    public Role addRole(String role);
 
-    public List<Role> findAll() {
-        return repository.findAll();
-    }
-
-    public Role addRole(String role) {
-        Role roleEntity = new Role().setName(role);
-        return repository.save(roleEntity);
-    }
-
-    public void makeInactiveRole(Role role) {
-        role.setStatus(2);
-        repository.save(role);
-    }
+    public void makeInactiveRole(Role role);
 
 }
 

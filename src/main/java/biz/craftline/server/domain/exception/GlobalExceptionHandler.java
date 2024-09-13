@@ -20,8 +20,6 @@ import java.util.logging.Logger;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    //Logger logger = (Logger) LoggerFactory.getLogger(getClass().getName());
-
     @ExceptionHandler(value = {AccessDeniedException.class})
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
@@ -46,6 +44,7 @@ public class GlobalExceptionHandler {
 
         // TODO send this stack trace to an observability tool
         exception.printStackTrace();
+        System.out.println("====>exception: "+exception.getMessage());
 
         if (exception instanceof BadCredentialsException) {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());
@@ -73,8 +72,6 @@ public class GlobalExceptionHandler {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), exception.getMessage());
             errorDetail.setProperty("description", "Unknown internal server error.");
         }
-
-        //logger.info(errorDetail.getDetail());
         return errorDetail;
     }
 }
