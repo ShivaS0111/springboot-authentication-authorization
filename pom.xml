@@ -76,8 +76,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
 
-	    <!-- Spring Data JPA -->
+		<!-- Spring Data JPA -->
 	    <dependency>
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -90,8 +94,22 @@
 	        <version>8.0.33</version> <!-- Specify the latest version here -->
 	        <scope>runtime</scope>
 	    </dependency>
-	
-	
+
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>5.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+
+		<!-- Swagger API -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.7.0</version>
+		</dependency>
 
 	    <!-- Kotlin Standard Library -->
 	    <dependency>

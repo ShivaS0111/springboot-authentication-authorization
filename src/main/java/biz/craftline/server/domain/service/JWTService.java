@@ -1,6 +1,7 @@
 package biz.craftline.server.domain.service;
 
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,9 +14,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Logger;
 
 @Service
 public class JWTService {
+
+    //Logger logger = (Logger) LoggerFactory.getLogger(getClass().getName());
 
     @Value("${security.jwt.secret-key}")
     private String secretKey;
@@ -49,7 +53,7 @@ public class JWTService {
             UserDetails userDetails,
             long expiration
     ) {
-        System.out.println("UserDetails: " + userDetails);
+        //logger.info("UserDetails: " + userDetails);
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())

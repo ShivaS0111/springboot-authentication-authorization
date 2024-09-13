@@ -2,8 +2,8 @@ package biz.craftline.server.aop
 
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.After
+import org.aspectj.lang.annotation.AfterThrowing
 import org.aspectj.lang.annotation.Aspect
-import org.aspectj.lang.annotation.Before
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -12,15 +12,29 @@ import org.springframework.stereotype.Component
 @Aspect
 @Component
 class LoggingAspect {
-    private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
-
-    @Before("execution(* biz.craftline.server.domain.service.*.*(..))")
-    fun logBeforeMethod(joinPoint: JoinPoint) {
-        logger.info("Entering method: " + joinPoint.signature.name)
+    companion object {
+        private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    @After("execution(* biz.craftline.server.domain.service.*.*(..))")
+    @After("execution(* biz.craftline.server.domain.*.*(..)) || execution(* biz.craftline.server.api.controller.*.*(..))")
+    fun logBeforeMethod(joinPoint: JoinPoint) {
+        //if (logger.isInfoEnabled) {
+            logger.info("Entering method: {} with args: {}", joinPoint.getSignature().toShortString(), joinPoint.getArgs());
+        //}
+    }
+
+    @After("execution(* biz.craftline.server.domain.*.*(..)) || execution(* biz.craftline.server.api.controller.*.*(..))")
     fun logAfterMethod(joinPoint: JoinPoint) {
-        logger.info("Exiting method: " + joinPoint.signature.name)
+        //if (logger.isInfoEnabled) {
+            logger.info("Exiting method: {}", joinPoint.signature.toShortString());
+        //}
+    }
+
+    @AfterThrowing(pointcut = "execution(* biz.craftline.server.domain.*.*(..)) || execution(* biz.craftline.server.api.controller.*.*(..))", throwing = "ex")
+    fun logExceptions(joinPoint: JoinPoint, ex: Throwable) {
+        logger.error(
+            "Exception in method: {} with args: {}, Exception: {}",
+            joinPoint.signature.toShortString(), joinPoint.args, ex.message, ex
+        )
     }
 }
