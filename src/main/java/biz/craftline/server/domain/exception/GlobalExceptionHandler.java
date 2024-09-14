@@ -2,6 +2,7 @@ package biz.craftline.server.domain.exception;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.logging.Logger;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    Logger logger = LoggerFactory.getLogger(getClass().getName());
 
     @ExceptionHandler(value = {AccessDeniedException.class})
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
@@ -44,7 +45,7 @@ public class GlobalExceptionHandler {
 
         // TODO send this stack trace to an observability tool
         exception.printStackTrace();
-        System.out.println("====>exception: "+exception.getMessage());
+        logger.error(exception.getMessage());
 
         if (exception instanceof BadCredentialsException) {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());
@@ -66,6 +67,16 @@ public class GlobalExceptionHandler {
         if (exception instanceof ExpiredJwtException) {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
             errorDetail.setProperty("description", "The JWT token has expired");
+        }
+
+        if (exception instanceof ExpiredJwtException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
+            errorDetail.setProperty("description", "The JWT token has expired");
+        }
+
+        if (errorDetail == null) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), exception.getMessage());
+            errorDetail.setProperty("description", "Unknown internal server error.");
         }
 
         if (errorDetail == null) {
