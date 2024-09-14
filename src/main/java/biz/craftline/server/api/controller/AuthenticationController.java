@@ -5,7 +5,6 @@ import biz.craftline.server.api.response.APIResponse;
 import biz.craftline.server.api.response.LoginResponse;
 import biz.craftline.server.domain.service.AuthenticationService;
 import biz.craftline.server.domain.service.JWTService;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import biz.craftline.server.api.dto.LoginUserDTO;
 import biz.craftline.server.domain.model.User;
-
-import java.util.logging.Logger;
 
 import static biz.craftline.server.utils.network.NetworkUtilsKt.success;
 
