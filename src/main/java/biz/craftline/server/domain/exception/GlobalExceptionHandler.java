@@ -22,17 +22,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {AccessDeniedException.class})
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
+        ex.printStackTrace();
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
+        ex.printStackTrace();
         // Log exception details
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Constraint violation: " + ex.getMessage());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        ex.printStackTrace();
         // Log exception details
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data integrity violation: " + ex.getMessage());
     }
