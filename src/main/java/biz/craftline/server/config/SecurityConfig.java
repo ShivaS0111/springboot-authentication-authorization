@@ -40,7 +40,11 @@ public class SecurityConfig {
         http
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(getPublicEndPoints()).permitAll()
+                        .requestMatchers("/auth/**", "/public/**", "/swagger-ui.html", "/v3/api-docs/**",
+                                "/actuator/**",
+                                "/metrics",
+                                "/metrics/**").permitAll()
+                        //.requestMatchers(getPublicEndPoints()).permitAll()
                         .requestMatchers("/users/list").hasAuthority("ADMIN")
                         .requestMatchers("/roles/list").hasAuthority("SUPER_ADMIN")
                         .anyRequest()
