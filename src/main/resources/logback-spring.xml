@@ -21,7 +21,9 @@
             <totalSizeCap>3GB</totalSizeCap> <!-- Maximum total size of all archived logs -->
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg [correlationId:%X{correlationId}]%n</pattern>
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg [correlationId:%X{correlationId}]%n</pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n</pattern>
+
         </encoder>
         <filter class="biz.craftline.server.infrastructure.filter.NoStackTraceFilter" />
     </appender>

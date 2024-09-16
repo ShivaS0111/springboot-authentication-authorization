@@ -8,10 +8,11 @@ LABEL maintainer="shivaprasad.andy@gmail.com"
 WORKDIR /app
 
 # Copy the WAR file into the container (adjust the filename to match your WAR file)
-COPY target/craft-line-0.0.1-SNAPSHOT.war /app/app.war
+COPY target/craftline.jar /app/app.jar
 
 # Expose the port on which the Spring Boot app runs
 EXPOSE 8080
 
+RUN ls -al /app
 # Run the Spring Boot application using the WAR file
-ENTRYPOINT ["java", "-jar", "/app/app.war"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
